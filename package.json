@@ -7,6 +7,14 @@
     "build": "next build",
     "start": "next start"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": "prettier --write"
+  },
   "dependencies": {
     "@auth0/nextjs-auth0": "^0.10.0",
     "@chakra-ui/core": "^0.6.1",
@@ -23,6 +31,9 @@
   },
   "devDependencies": {
     "@types/node-fetch": "^2.5.5",
-    "@types/styled-components": "^5.0.1"
+    "@types/styled-components": "^5.0.1",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.9",
+    "prettier": "^2.0.2"
   }
 }

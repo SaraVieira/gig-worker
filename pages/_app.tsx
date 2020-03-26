@@ -1,12 +1,12 @@
-import React from 'react'
-import NextApp, { Container } from 'next/app'
-import { ThemeProvider, CSSReset, ColorModeProvider } from '@chakra-ui/core'
+import React from "react";
+import NextApp, { Container } from "next/app";
+import { ThemeProvider, CSSReset, ColorModeProvider } from "@chakra-ui/core";
 
-import Navbar from '../components/Navbar'
+import Navbar from "../components/Navbar";
 
 class App extends NextApp {
   render() {
-    const { Component } = this.props
+    const { Component } = this.props;
     return (
       <Container>
         <ThemeProvider>
@@ -19,8 +19,8 @@ class App extends NextApp {
           </ColorModeProvider>
         </ThemeProvider>
       </Container>
-    )
+    );
   }
 }
 
-export default App
+export default App;
