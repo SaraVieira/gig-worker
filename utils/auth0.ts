@@ -1,12 +1,21 @@
-import { initAuth0 } from '@auth0/nextjs-auth0'
+import { initAuth0 } from "@auth0/nextjs-auth0";
+
+if (!process.env.domain || !process.env.clientId || !process.env.cookieSecret) {
+  throw new Error(`Environment variables not set. Please make sure you have the following environment variables set:
+- domain
+- clientId,
+- cookieSecret
+
+And try again.`);
+}
 
 export default initAuth0({
   domain: process.env.domain,
   clientId: process.env.clientId,
   clientSecret: process.env.clientSecret,
-  scope: 'openid profile',
-  redirectUri: 'http://localhost:3000/api/callback',
-  postLogoutRedirectUri: 'http://localhost:3000/',
+  scope: "openid profile",
+  redirectUri: "http://localhost:3000/api/callback",
+  postLogoutRedirectUri: "http://localhost:3000/",
   session: {
     // The secret used to encrypt the cookie.
     cookieSecret: process.env.cookieSecret,
@@ -14,7 +23,7 @@ export default initAuth0({
     cookieLifetime: 60 * 60 * 8,
     // (Optional) The cookie domain this should run on. Leave it blank to restrict it to your domain.
     // (Optional) SameSite configuration for the session cookie. Defaults to 'lax', but can be changed to 'strict' or 'none'. Set it to false if you want to disable the SameSite setting.
-    cookieSameSite: 'lax',
+    cookieSameSite: "lax",
     // (Optional) Store the id_token in the session. Defaults to false.
     storeIdToken: false,
     // (Optional) Store the access_token in the session. Defaults to false.
@@ -28,4 +37,4 @@ export default initAuth0({
     // (Optional) Configure the clock tolerance in milliseconds, if the time on your server is running behind.
     clockTolerance: 10000,
   },
-})
+});
