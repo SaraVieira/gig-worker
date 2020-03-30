@@ -10,6 +10,7 @@ import { User } from "../types";
 type State = {
   user: User | null;
 };
+
 class App extends NextApp<NextPage, unknown, Readonly<State>> {
   state: Readonly<State> = {
     user: null,
