@@ -57,17 +57,8 @@ const NavBar: FC = props => {
           </MenuItems>
         )}
       </Box>
-
       <Box display={{ sm: show ? "block" : "none", md: "block" }} mt={{ base: 4, md: 0 }}>
-        {!me && (
-          <Button bg="transparent" border="1px">
-            <Link href="api/login">
-              <a>Log In</a>
-            </Link>
-          </Button>
-        )}
-
-        {me && (
+        {me ? (
           <Grid templateColumns="min-content min-content" columnGap={4}>
             <Link href="jobs/new">
               <Button>Add Job</Button>
@@ -78,6 +69,12 @@ const NavBar: FC = props => {
               </Button>
             </Link>
           </Grid>
+        ) : (
+          <Button bg="transparent" border="1px">
+            <Link href="api/login">
+              <a>Log In</a>
+            </Link>
+          </Button>
         )}
       </Box>
     </Flex>
