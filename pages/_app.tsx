@@ -11,10 +11,8 @@ class App extends NextApp {
       <ThemeProvider>
         <CSSReset />
         <ColorModeProvider>
-          <>
-            <Navbar {...this.props.pageProps} />
-            <Component {...this.props.pageProps} />
-          </>
+          <Navbar {...this.props.pageProps} />
+          <Component {...this.props.pageProps} />
         </ColorModeProvider>
       </ThemeProvider>
     );
