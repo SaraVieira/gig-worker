@@ -2,7 +2,6 @@ import React from "react";
 import NextApp from "next/app";
 import { ThemeProvider, CSSReset, theme } from "@chakra-ui/core";
 import { NextPage } from "next";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import Navbar from "../components/Navbar";
 import { UserContext } from "../components/UserContext";
 import { User } from "../types";
