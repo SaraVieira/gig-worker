@@ -25,7 +25,7 @@ const NewJob = () => {
     user: me?.sub ?? "",
     donateLink: "",
     description: "",
-    tasks: [] /** @todo add tasks from here */,
+    tasks: [],
   });
 
   const updateTask = (newTask: Task) => (taskIndex: number) => {
