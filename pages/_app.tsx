@@ -26,6 +26,7 @@ class App extends NextApp<NextPage, unknown, Readonly<State>> {
       })
       .then((user) => this.setState({ user }));
   }
+
   render() {
     const { Component } = this.props;
     return (
