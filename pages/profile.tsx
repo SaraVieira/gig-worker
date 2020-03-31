@@ -13,20 +13,15 @@ type ProfileProps = {
 };
 
 const Profile: FC<ProfileProps> = ({ user }) => {
-  console.log(user);
-  return (
+  return !user ? (
+    <Spinner size="xl" />
+  ) : (
     <>
-      {!user ? (
-        <Spinner size="xl" />
-      ) : (
-        <>
-          <img src={user.picture} alt="Profile" width="100" />
+      <img src={user.picture} alt="Profile" width="100" />
 
-          <h2>{user.name}</h2>
-          <p>{user.email}</p>
-          <code>{JSON.stringify(user, null, 2)}</code>
-        </>
-      )}
+      <h2>{user.name}</h2>
+      <p>{user.email}</p>
+      <code>{JSON.stringify(user, null, 2)}</code>
     </>
   );
 };
