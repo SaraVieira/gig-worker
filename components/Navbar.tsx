@@ -1,7 +1,8 @@
-import React, { useEffect, FC } from "react";
+import React, { FC, useContext } from "react";
 import Link from "next/link";
-import { Box, Heading, Flex, Text, Button } from "@chakra-ui/core";
-import fetch, { Response } from "node-fetch";
+import { Box, Heading, Flex, Text, Button, Grid } from "@chakra-ui/core";
+
+import { UserContext } from "./UserContext";
 
 const MenuItems: FC = ({ children }) => (
   <Text mt={{ base: 4, md: 0 }} mr={6} display="block">
@@ -9,21 +10,10 @@ const MenuItems: FC = ({ children }) => (
   </Text>
 );
 
-const NavBar: FC = (props) => {
-  const [user, setUser] = React.useState(false);
+const NavBar: FC = props => {
+  const { me } = useContext(UserContext);
   const [show, setShow] = React.useState(false);
   const handleToggle = () => setShow(!show);
-
-  useEffect(() => {
-    fetch("/api/me")
-      .then(function (response: Response) {
-        if (!response.ok) {
-          return null;
-        }
-        return response.json();
-      })
-      .then(setUser);
-  }, []);
 
   return (
     <Flex
@@ -45,12 +35,7 @@ const NavBar: FC = (props) => {
       </Flex>
 
       <Box display={{ sm: "block", md: "none" }} onClick={handleToggle}>
-        <svg
-          fill="white"
-          width="12px"
-          viewBox="0 0 20 20"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        <svg fill="white" width="12px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
           <title>Menu</title>
           <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
         </svg>
@@ -64,7 +49,7 @@ const NavBar: FC = (props) => {
       >
         <MenuItems>Docs</MenuItems>
         <MenuItems>Examples</MenuItems>
-        {user && (
+        {me && (
           <MenuItems>
             <Link href="/profile">
               <a>Profile</a>
@@ -72,39 +57,28 @@ const NavBar: FC = (props) => {
           </MenuItems>
         )}
       </Box>
-
-      <Box
-        display={{ sm: show ? "block" : "none", md: "block" }}
-        mt={{ base: 4, md: 0 }}
-      >
-        {!user && (
+      <Box display={{ sm: show ? "block" : "none", md: "block" }} mt={{ base: 4, md: 0 }}>
+        {me ? (
+          <Grid templateColumns="min-content min-content" columnGap={4}>
+            <Link href="jobs/new">
+              <Button>Add Job</Button>
+            </Link>
+            <Link href="api/logout">
+              <Button bg="transparent" border="1px">
+                Log out
+              </Button>
+            </Link>
+          </Grid>
+        ) : (
           <Button bg="transparent" border="1px">
             <Link href="api/login">
               <a>Log In</a>
             </Link>
           </Button>
         )}
-
-        {user && (
-          <>
-            <Button bg="transparent" border="1px">
-              <Link href="api/logout">
-                <a>Log out</a>
-              </Link>
-            </Button>
-          </>
-        )}
       </Box>
     </Flex>
   );
 };
-export async function getServerSideProps() {
-  // const res = await fetch('/api/session').then((r) => r.json())
 
-  // console.log(res)
-
-  return {
-    props: { user: "LOL" },
-  };
-}
 export default NavBar;
