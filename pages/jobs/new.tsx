@@ -78,7 +78,7 @@ const NewJob = () => {
   }, [draft]);
 
   return (
-    <Box maxWidth={"80%"} width="1200" margin="auto">
+    <Box maxWidth="80%" width="1200" margin="auto">
       <Heading paddingY={6}>Add yourself</Heading>
       <FormControl maxWidth="600">
         <FormLabel htmlFor="description">
