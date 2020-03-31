@@ -9,10 +9,6 @@ if (!process.env.domain || !process.env.clientId || !process.env.cookieSecret) {
 And try again.`);
 }
 
-if (!process.env.clientSecret || process.env.cookieSecret) {
-  throw new Error("Auth0 secrets missing");
-}
-
 export default initAuth0({
   domain: process.env.domain,
   clientId: process.env.clientId,
