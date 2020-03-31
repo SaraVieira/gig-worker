@@ -93,7 +93,7 @@ const NewJob = () => {
         Description
         <Textarea
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
-            setDraft({ ...draft, donateLink: e.target.value })
+            setDraft({ ...draft, description: e.target.value })
           }
         />
       </FormLabel>
