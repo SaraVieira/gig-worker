@@ -1,6 +1,6 @@
 type Table = "work" | "tasks" | "users";
 
-export const fetchFromAirTable = (table: Table, options: RequestInit) => {
+export const fetchFromAirTable = (table: Table, options: RequestInit) =>
   fetch(`https://api.airtable.com/v0/${process.env.airTableBase}/${table}`, {
     ...options,
     headers: {
@@ -13,4 +13,3 @@ export const fetchFromAirTable = (table: Table, options: RequestInit) => {
     }
     return r.json();
   });
-};
