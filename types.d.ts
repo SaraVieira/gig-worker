@@ -1,4 +1,4 @@
-export type Task = { name: string; price: string; type: string };
+export type Task = { id?: number; name: string; price: number; type: string };
 export type Work = {
   canContact: boolean;
   user: User["sub"];

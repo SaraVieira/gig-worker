@@ -1,7 +1,14 @@
 import React, { useContext, useState, ChangeEvent, useCallback } from "react";
-import { Input, FormLabel, Textarea, Checkbox, Button } from "@chakra-ui/core";
+import {
+  Input,
+  FormLabel,
+  Textarea,
+  Checkbox,
+  Button,
+  Flex,
+} from "@chakra-ui/core";
 
-import { Work } from "../../types";
+import { Work, Task } from "../../types";
 import { UserContext } from "../../components/UserContext";
 import { fetchFromAirTable } from "../../utils/fetchFromAirTable";
 
@@ -21,23 +28,47 @@ const NewJob = () => {
     tasks: [] /** @todo add tasks from here */,
   });
 
-  const addJob = useCallback(() => {
-    setRequestState("loading");
-    fetchFromAirTable("work", {
-      method: "POST",
-      body: JSON.stringify({
-        fields: draft,
-      }),
-    })
-      .then(() => {
-        setRequestState("initial");
-      })
-      .catch((e) => {
-        setRequestState("error");
-        e.json().then((errorJson: Record<string, string>) =>
-          setError(JSON.stringify(errorJson))
-        );
+  const updateTask = (newTask: Task) => (taskIndex: number) => {
+    setDraft({
+      ...draft,
+      tasks: [
+        ...draft.tasks.slice(0, taskIndex),
+        newTask,
+        ...draft.tasks.slice(taskIndex + 1),
+      ],
+    });
+  };
+
+  const addJob = useCallback(async () => {
+    try {
+      setRequestState("loading");
+      const { tasks, ...workDraftWithoutTasks } = draft;
+
+      const returnedTasks = await fetchFromAirTable("tasks", {
+        method: "POST",
+        body: JSON.stringify({ records: tasks.map((fields) => ({ fields })) }),
       });
+
+      await fetchFromAirTable("work", {
+        method: "POST",
+        body: JSON.stringify({
+          fields: {
+            ...workDraftWithoutTasks,
+            tasks: returnedTasks.records.map((t: { id: string }) => t.id),
+          },
+        }),
+      });
+
+      setRequestState("initial");
+    } catch (e) {
+      setRequestState("error");
+      if (e instanceof Response) {
+        const errorText = await e.json();
+        setError(JSON.stringify(errorText));
+      } else {
+        setError(String(error));
+      }
+    }
   }, [draft]);
 
   return (
@@ -66,6 +97,46 @@ const NewJob = () => {
           }
         />
       </FormLabel>
+      <fieldset title="Tasks">
+        {draft.tasks.map((t, i) => (
+          <Flex key={i}>
+            <FormLabel>
+              Name
+              <Input
+                type="text"
+                value={t.name}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  updateTask({ ...t, name: e.target.value })(i)
+                }
+              ></Input>
+            </FormLabel>
+            <FormLabel>
+              Price
+              <Input
+                type="number"
+                value={t.price}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  updateTask({ ...t, price: parseFloat(e.target.value) })(i)
+                }
+              ></Input>
+            </FormLabel>
+          </Flex>
+        ))}
+        <Button
+          isDisabled={
+            draft.tasks.length ===
+            10 /* AirTable allows up to 10 elements at a time */
+          }
+          onClick={() =>
+            setDraft({
+              ...draft,
+              tasks: [...draft.tasks, { name: "", price: 0, type: "" }],
+            })
+          }
+        >
+          + Add task
+        </Button>
+      </fieldset>
       {requestState === "loading" && "Loading..."}
       {requestState === "error" && error}
       <Button onClick={() => addJob()}>Add Job</Button>
