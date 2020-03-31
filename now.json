@@ -1,11 +1,6 @@
 {
   "build": {
     "env": {
-      "bearer": "@bearer-gig",
-      "clientSecret": "@clientsecret-gig",
-      "cookieSecret": "@cookiesecret-gig",
-      "domain": "@domain-gig",
-      "clientId": "@clientid-gig",
       "airTableBase": "@airtablebase-gig",
       "airTableApiKey": "@airtableppikey-gig"
     }
@@ -15,8 +10,6 @@
     "clientSecret": "@clientsecret-gig",
     "cookieSecret": "@cookiesecret-gig",
     "domain": "@domain-gig",
-    "clientId": "@clientid-gig",
-    "airTableBase": "@airtablebase-gig",
-    "airTableApiKey": "@airtableppikey-gig"
+    "clientId": "@clientid-gig"
   }
 }
