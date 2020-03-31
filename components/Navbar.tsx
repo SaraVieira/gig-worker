@@ -80,13 +80,5 @@ const NavBar: FC = props => {
     </Flex>
   );
 };
-export async function getServerSideProps() {
-  // const res = await fetch('/api/session').then((r) => r.json())
 
-  // console.log(res)
-
-  return {
-    props: { user: "LOL" },
-  };
-}
 export default NavBar;
