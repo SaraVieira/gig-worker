@@ -9,16 +9,20 @@ if (!process.env.domain || !process.env.clientId || !process.env.cookieSecret) {
 And try again.`);
 }
 
+if (!process.env.clientSecret || process.env.cookieSecret) {
+  throw new Error("Auth0 secrets missing");
+}
+
 export default initAuth0({
   domain: process.env.domain,
   clientId: process.env.clientId,
-  clientSecret: process.env.clientSecret,
+  clientSecret: process.env.clientSecret.split("DELETEME")[1],
   scope: "openid profile",
   redirectUri: "http://localhost:3000/api/callback",
   postLogoutRedirectUri: "http://localhost:3000/",
   session: {
     // The secret used to encrypt the cookie.
-    cookieSecret: process.env.cookieSecret,
+    cookieSecret: process.env.cookieSecret.split("DELETEME")[1],
     // The cookie lifetime (expiration) in seconds. Set to 8 hours by default.
     cookieLifetime: 60 * 60 * 8,
     // (Optional) The cookie domain this should run on. Leave it blank to restrict it to your domain.
