@@ -1,7 +1,7 @@
 export type Task = { name: string; price: string; type: string };
 export type Work = {
   canContact: boolean;
-  user: number;
+  user: User["sub"];
   donateLink: string;
   description: string;
   tasks: Task[];
