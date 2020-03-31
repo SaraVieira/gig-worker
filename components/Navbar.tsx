@@ -1,5 +1,5 @@
 import React, { FC, useContext } from "react";
-import Link from "next/Link";
+import Link from "next/link";
 import { Box, Heading, Flex, Text, Button, Grid } from "@chakra-ui/core";
 
 import { UserContext } from "./UserContext";
