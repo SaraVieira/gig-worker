@@ -26,11 +26,13 @@
     "node-fetch": "^2.6.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-intl": "^4.3.1",
     "styled-components": "^5.0.1",
     "typescript": "^3.8.3"
   },
   "devDependencies": {
     "@types/node-fetch": "^2.5.5",
+    "@types/react-intl": "^3.0.0",
     "@types/styled-components": "^5.0.1",
     "husky": "^4.2.3",
     "lint-staged": "^10.0.9",

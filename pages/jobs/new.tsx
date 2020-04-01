@@ -11,13 +11,14 @@ import {
   Box,
   Heading,
 } from "@chakra-ui/core";
+import { useIntl } from "react-intl";
 
 import { Work, Task } from "../../types";
 import { UserContext } from "../../components/UserContext";
 import { fetchFromAirTable } from "../../utils/fetchFromAirTable";
 
-/** @todo This ugly. Let's pretty it up. */
 const NewJob = () => {
+  const { messages } = useIntl();
   const { me } = useContext(UserContext);
   const [requestState, setRequestState] = useState<
     "initial" | "loading" | "error"
@@ -82,7 +83,7 @@ const NewJob = () => {
       <Heading paddingY={6}>Add yourself</Heading>
       <FormControl maxWidth="600">
         <FormLabel htmlFor="description">
-          Give us some information about yourself
+          {messages["jobs.new.giveUsYourInfo"]}
         </FormLabel>
         <Textarea
           id="description"
@@ -93,7 +94,7 @@ const NewJob = () => {
       </FormControl>
       <FormControl maxWidth="600" marginTop={4}>
         <FormLabel htmlFor="donate">
-          Can we donate you some money? If so where?
+          {messages["jobs.new.canWeDonate"]}
         </FormLabel>
         <Input
           id="donate"
@@ -103,8 +104,7 @@ const NewJob = () => {
           }
         />
         <FormHelperText id="donate">
-          This allows us to help you even if there are no tasks you can do at
-          the moment
+          {messages["jobs.new.donateExplanation"]}
         </FormHelperText>
       </FormControl>
       <FormControl maxWidth="600" marginTop={4}>
@@ -112,17 +112,17 @@ const NewJob = () => {
           onChange={() => setDraft({ ...draft, canContact: !draft.canContact })}
           isChecked={draft.canContact}
         >
-          Is it okay to show your email?
+          {messages["jobs.new.canContact"]}
         </Checkbox>
       </FormControl>
       <fieldset title="Tasks">
         <Heading marginY={6} size="md">
-          Add all the jobs you can do
+          {messages["jobs.new.addAllJobs"]}
         </Heading>
         {draft.tasks.map((t, i) => (
           <Flex key={i} marginTop={4}>
             <FormControl maxWidth="600" marginTop={4} marginRight={2}>
-              <FormLabel>What is the job?</FormLabel>
+              <FormLabel>{messages["jobs.new.whatIsTheJob"]}</FormLabel>
               <Input
                 type="text"
                 value={t.name}
@@ -132,7 +132,7 @@ const NewJob = () => {
               ></Input>
             </FormControl>
             <FormControl maxWidth="600" marginTop={4}>
-              <FormLabel>How much do you charge?</FormLabel>
+              <FormLabel>{messages["jobs.new.howMuchDoYouCharge"]}</FormLabel>
               <Input
                 type="number"
                 value={t.price}
@@ -156,7 +156,7 @@ const NewJob = () => {
             })
           }
         >
-          + Add job
+          + {messages["jobs.new.addJob"]}
         </Button>
       </fieldset>
       {requestState === "error" && error}
@@ -167,7 +167,9 @@ const NewJob = () => {
         onClick={() => addJob()}
         variantColor="blue"
       >
-        {requestState === "loading" ? "Loading..." : "Add Yourself"}
+        {requestState === "loading"
+          ? messages["loading"] + "..."
+          : messages["jobs.new.addYourself"]}
       </Button>
     </Box>
   );
