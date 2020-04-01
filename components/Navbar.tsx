@@ -10,7 +10,7 @@ const MenuItems: FC = ({ children }) => (
   </Text>
 );
 
-const NavBar: FC = props => {
+const NavBar: FC = (props) => {
   const { me } = useContext(UserContext);
   const [show, setShow] = React.useState(false);
   const handleToggle = () => setShow(!show);
@@ -22,8 +22,7 @@ const NavBar: FC = props => {
       justify="space-between"
       wrap="wrap"
       padding="1.5rem"
-      bg="teal.500"
-      color="white"
+      color="gray.600"
       {...props}
     >
       <Flex align="center" mr={5}>
@@ -35,7 +34,12 @@ const NavBar: FC = props => {
       </Flex>
 
       <Box display={{ sm: "block", md: "none" }} onClick={handleToggle}>
-        <svg fill="white" width="12px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+        <svg
+          fill="white"
+          width="12px"
+          viewBox="0 0 20 20"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <title>Menu</title>
           <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
         </svg>
@@ -47,8 +51,6 @@ const NavBar: FC = props => {
         alignItems="center"
         flexGrow={1}
       >
-        <MenuItems>Docs</MenuItems>
-        <MenuItems>Examples</MenuItems>
         {me && (
           <MenuItems>
             <Link href="/profile">
@@ -57,11 +59,14 @@ const NavBar: FC = props => {
           </MenuItems>
         )}
       </Box>
-      <Box display={{ sm: show ? "block" : "none", md: "block" }} mt={{ base: 4, md: 0 }}>
+      <Box
+        display={{ sm: show ? "block" : "none", md: "block" }}
+        mt={{ base: 4, md: 0 }}
+      >
         {me ? (
           <Grid templateColumns="min-content min-content" columnGap={4}>
             <Link href="jobs/new">
-              <Button>Add Job</Button>
+              <Button variant="outline">Add Job</Button>
             </Link>
             <Link href="api/logout">
               <Button bg="transparent" border="1px">

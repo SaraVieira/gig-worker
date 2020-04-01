@@ -1,8 +1,7 @@
 import React from "react";
 import NextApp from "next/app";
-import { ThemeProvider, CSSReset, ColorModeProvider } from "@chakra-ui/core";
+import { ThemeProvider, CSSReset, theme } from "@chakra-ui/core";
 import { NextPage } from "next";
-
 import Navbar from "../components/Navbar";
 import { UserContext } from "../components/UserContext";
 import { User } from "../types";
@@ -30,14 +29,12 @@ class App extends NextApp<NextPage, unknown, Readonly<State>> {
   render() {
     const { Component } = this.props;
     return (
-      <ThemeProvider>
+      <ThemeProvider theme={theme}>
         <CSSReset />
-        <ColorModeProvider>
-          <UserContext.Provider value={{ me: this.state.user }}>
-            <Navbar {...this.props.pageProps} />
-            <Component {...this.props.pageProps} />
-          </UserContext.Provider>
-        </ColorModeProvider>
+        <UserContext.Provider value={{ me: this.state.user }}>
+          <Navbar {...this.props.pageProps} />
+          <Component {...this.props.pageProps} />
+        </UserContext.Provider>
       </ThemeProvider>
     );
   }
