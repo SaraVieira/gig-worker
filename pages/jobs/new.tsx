@@ -80,7 +80,7 @@ const NewJob = () => {
 
   return (
     <Box maxWidth="80%" width="1200" margin="auto">
-      <Heading paddingY={6}>Add yourself</Heading>
+      <Heading paddingY={6}>{messages["navbar.addYourself"]}</Heading>
       <FormControl maxWidth="600">
         <FormLabel htmlFor="description">
           {messages["jobs.new.giveUsYourInfo"]}

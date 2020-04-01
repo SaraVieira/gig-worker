@@ -13,7 +13,7 @@ export const en: Messages = {
   "jobs.new.howMuchDoYouCharge": "How much do you charge?",
   "jobs.new.addJob": "Add job",
   "jobs.new.addYourself": "Add Yourself",
-  "navbar.addYourself": "Join",
+  "navbar.addYourself": "Add Yourself",
   "navbar.login": "Login",
   "navbar.logout": "Logout",
   "navbar.menu": "Menu",
