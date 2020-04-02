@@ -1,8 +1,10 @@
 import React, { FC, useContext } from "react";
 import Link from "next/link";
 import { Box, Heading, Flex, Text, Button, Grid } from "@chakra-ui/core";
+import { useIntl } from "react-intl";
 
 import { UserContext } from "./UserContext";
+import { LanguageContext } from "./LanguageContext";
 
 const MenuItems: FC = ({ children }) => (
   <Text mt={{ base: 4, md: 0 }} mr={6} display="block">
@@ -11,7 +13,9 @@ const MenuItems: FC = ({ children }) => (
 );
 
 const NavBar: FC = (props) => {
+  const { messages } = useIntl();
   const { me } = useContext(UserContext);
+  const { setLocale } = useContext(LanguageContext);
   const [show, setShow] = React.useState(false);
   const handleToggle = () => setShow(!show);
 
@@ -40,7 +44,7 @@ const NavBar: FC = (props) => {
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <title>Menu</title>
+          <title>{messages["navbar.menu"]}</title>
           <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
         </svg>
       </Box>
@@ -54,34 +58,47 @@ const NavBar: FC = (props) => {
         {me && (
           <MenuItems>
             <Link href="/profile">
-              <a>Profile</a>
+              <a>{messages["navbar.profile"]}</a>
             </Link>
           </MenuItems>
         )}
       </Box>
-      <Box
-        display={{ sm: show ? "block" : "none", md: "block" }}
-        mt={{ base: 4, md: 0 }}
-      >
-        {me ? (
-          <Grid templateColumns="min-content min-content" columnGap={4}>
-            <Link href="jobs/new">
-              <Button variant="outline">Add Job</Button>
-            </Link>
-            <Link href="api/logout">
+
+      <Grid templateColumns="min-content min-content" columnGap={2}>
+        <Box
+          display={{ sm: show ? "block" : "none", md: "block" }}
+          mt={{ base: 4, md: 0 }}
+        >
+          {me ? (
+            <Grid templateColumns="min-content min-content" columnGap={4}>
+              <Link href="jobs/new">
+                <Button variant="outline">
+                  {messages["navbar.addYourself"]}
+                </Button>
+              </Link>
+              <Link href="api/logout">
+                <Button bg="transparent" border="1px">
+                  {messages["navbar.logout"]}
+                </Button>
+              </Link>
+            </Grid>
+          ) : (
+            <Link href="api/login">
               <Button bg="transparent" border="1px">
-                Log out
+                {messages["navbar.login"]}
               </Button>
             </Link>
-          </Grid>
-        ) : (
-          <Button bg="transparent" border="1px">
-            <Link href="api/login">
-              <a>Log In</a>
-            </Link>
+          )}
+        </Box>
+        <Grid templateColumns="min-content min-content" columnGap={2}>
+          <Button fontSize={24} padding={0} onClick={() => setLocale("en")}>
+            🇬🇧
           </Button>
-        )}
-      </Box>
+          <Button fontSize={24} padding={0} onClick={() => setLocale("de")}>
+            🇩🇪
+          </Button>
+        </Grid>
+      </Grid>
     </Flex>
   );
 };

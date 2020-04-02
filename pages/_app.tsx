@@ -1,21 +1,19 @@
-import React from "react";
-import NextApp from "next/app";
+import React, { FC, useState, useEffect } from "react";
+import { AppProps } from "next/app";
 import { ThemeProvider, CSSReset, theme } from "@chakra-ui/core";
-import { NextPage } from "next";
+
 import Navbar from "../components/Navbar";
 import { UserContext } from "../components/UserContext";
 import { User } from "../types";
+import { IntlProvider } from "react-intl";
+import { messages } from "../i18n";
+import { LanguageContext } from "../components/LanguageContext";
 
-type State = {
-  user: User | null;
-};
+const App: FC<AppProps> = ({ Component, pageProps }) => {
+  const [me, setMe] = useState<User | null>(null);
+  const [locale, setLocale] = useState<"en" | "de">("en");
 
-class App extends NextApp<NextPage, unknown, Readonly<State>> {
-  state: Readonly<State> = {
-    user: null,
-  };
-
-  componentDidMount() {
+  useEffect(() => {
     fetch("/api/me")
       .then(function (response: Response) {
         if (!response.ok) {
@@ -23,21 +21,31 @@ class App extends NextApp<NextPage, unknown, Readonly<State>> {
         }
         return response.json();
       })
-      .then((user) => this.setState({ user }));
-  }
+      .then((me) => setMe(me));
+  }, []);
 
-  render() {
-    const { Component } = this.props;
-    return (
-      <ThemeProvider theme={theme}>
-        <CSSReset />
-        <UserContext.Provider value={{ me: this.state.user }}>
-          <Navbar {...this.props.pageProps} />
-          <Component {...this.props.pageProps} />
-        </UserContext.Provider>
-      </ThemeProvider>
-    );
-  }
-}
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+    if (["en", "de"].includes(navigator.language)) {
+      setLocale(navigator.language as "en" | "de");
+    }
+  }, []);
+
+  return (
+    <ThemeProvider theme={theme}>
+      <CSSReset />
+      <LanguageContext.Provider value={{ locale, setLocale }}>
+        <IntlProvider locale={locale} messages={messages[locale]}>
+          <UserContext.Provider value={{ me }}>
+            <Navbar {...pageProps} />
+            <Component {...pageProps} />
+          </UserContext.Provider>
+        </IntlProvider>
+      </LanguageContext.Provider>
+    </ThemeProvider>
+  );
+};
 
 export default App;
