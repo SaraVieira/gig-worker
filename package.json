@@ -16,7 +16,7 @@
     "*.{ts,tsx}": "prettier --write"
   },
   "dependencies": {
-    "@auth0/nextjs-auth0": "^0.10.0",
+    "@auth0/nextjs-auth0": "^1.4.2",
     "@chakra-ui/core": "^0.6.1",
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
